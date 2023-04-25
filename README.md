@@ -1,10 +1,14 @@
 # lastfm.shiyui.dev
 
-![demo](demo.jpg)
-
-## Usage
+## ✨ Usage
 
 ```sh
 pnpm i
+
 pnpm dev
 ```
+
+## 📸 Demo
+
+![demo](demo.jpg)
+
