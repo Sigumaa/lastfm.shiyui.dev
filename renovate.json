@@ -3,5 +3,20 @@
   "extends": [
     "config:base"
   ],
-  "automerge": true
+  "automerge": true,
+  "automergeType": "pr",
+  "commitMessage": "chore(deps): update dependencies",
+    "labels": [
+        "dependencies"
+    ],
+  "ignoreDeps": [
+    "eslint",
+    "typescript"
+  ],
+  "packageRules": [
+    {
+      "groupName": "dependencies",
+      "automerge": true
+    }
+  ]
 }
