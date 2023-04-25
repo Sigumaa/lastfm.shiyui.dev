@@ -12,11 +12,5 @@
   "ignoreDeps": [
     "eslint",
     "typescript"
-  ],
-  "packageRules": [
-    {
-      "groupName": "dependencies",
-      "automerge": true
-    }
   ]
 }
