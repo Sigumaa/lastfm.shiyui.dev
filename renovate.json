@@ -6,9 +6,6 @@
   "automerge": true,
   "automergeType": "pr",
   "commitMessage": "chore(deps): update dependencies",
-    "labels": [
-        "dependencies"
-    ],
   "ignoreDeps": [
     "eslint",
     "typescript"
