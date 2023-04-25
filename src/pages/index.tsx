@@ -9,8 +9,9 @@ export default function Home() {
   if (error) return <div>failed to load</div>
   if (!data) return <div>loading...</div>
 
-  const {artist,name,album,url} = data;
+  const {artist,name,album,url,image} = data;
   const nowplaying = Boolean(artist || name || album || url);
+  const thumbnail = Boolean(image);
 
   return (
     <div>
@@ -18,14 +19,19 @@ export default function Home() {
         <a href="https://www.last.fm/ja/user/shiyui">Shiyui</a> Now Playing
       </h1>
       <hr />
-      <p>{nowplaying ? "" : "Not"} Listening to Music</p>
+      <p>{nowplaying ? "" : "NotListening to Music"} </p>
       <div style={{ display: nowplaying ? "block" : "none" }}>
+        <div style={{ display: thumbnail ? "block" : "none" , float: "left" }}>
+          <img src={image} alt="thumbnail" />
+        </div>
+        <div style={{display: "inline-block", marginLeft: "10px" }}>
         <p>Name: {name}</p>
         <p>Artist: {artist}</p>
         <p>Album: {album}</p>
         <p>
           Music URL: <a href={url}>last.fm</a>
         </p>
+      </div>
         <hr />
       </div>
     </div>

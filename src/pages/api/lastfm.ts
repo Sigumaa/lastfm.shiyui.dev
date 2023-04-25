@@ -85,7 +85,7 @@ async function getNowPlayingTrack() {
   return {
     artist: data.recenttracks.track[0].artist["#text"],
     Streamable: data.recenttracks.track[0].streamable,
-    image: data.recenttracks.track[0].image,
+    image: data.recenttracks.track[0].image[2]["#text"],
     mbid: data.recenttracks.track[0].mbid,
     album: data.recenttracks.track[0].album["#text"],
     name: data.recenttracks.track[0].name,
