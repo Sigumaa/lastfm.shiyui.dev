@@ -1,76 +1,66 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface RecentTracksData {
-  recenttracks: RecentTracks;
-}
+type RecentTrack = {
+  artist: {
+    mbid: string;
+    "#text": string;
+  };
+  streamable: string;
+  image: {
+    size: string;
+    "#text": string;
+  }[];
+  mbid: string;
+  album: {
+    mbid: string;
+    "#text": string;
+  };
+  name: string;
+  "@attr": {
+    nowplaying: string;
+  };
+  url: string;
+  date: {
+    uts: string;
+    "#text": string;
+  };
+};
 
-interface RecentTracks {
-  track: RecentTrack[];
-  "@attr": RecentTracksAttr;
-}
-
-interface RecentTracksAttr {
+type RecentTracksAttr = {
   user: string;
   totalPages: string;
   page: string;
   perPage: string;
   total: string;
-}
+};
 
-interface RecentTrack {
+type RecentTracksData = {
+  recenttracks: {
+    track: RecentTrack[];
+    "@attr": RecentTracksAttr;
+  };
+};
 
-  artist: Artist;
-  streamable: string;
-  image: Image[];
+type NowPlayingTrack = {
+  artist: string;
+  Streamable: string;
+  image: string;
   mbid: string;
-  album: Album;
+  album: string;
   name: string;
-  "@attr": RecentTrackAttr;
   url: string;
-  date: Date;
-}
-
-interface Artist {
-  mbid: string;
-  "#text": string;
-}
-
-interface Image {
-  size: string;
-  "#text": string;
-}
-
-interface Album {
-  mbid: string;
-  "#text": string;
-}
-
-interface RecentTrackAttr {
-  nowplaying: string;
-}
-
-interface Date {
-  uts: string;
-  "#text": string;
-}
-
-interface NowPlayingTrack {
-  artist: Artist
-  Streamable: string
-  image: Image[]
-  mbid: string
-  album: Album
-  name: string
-  url: string
-  date: Date
-}
+  date: {
+    uts: string;
+    "#text": string;
+  };
+};
 
 const {
   LASTFM_API_KEY: key,
   LASTFM_USER_NAME: user,
 } = process.env;
 
-async function getNowPlayingTrack() {
+async function getNowPlayingTrack(): Promise<NowPlayingTrack | null> {
   const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${user}&api_key=${key}&format=json&limit=1`;
   const res = await fetch(url);
   const data: RecentTracksData = await res.json();
@@ -82,26 +72,32 @@ async function getNowPlayingTrack() {
     return null;
   }
 
+  const track = data.recenttracks.track[0];
+
   return {
-    artist: data.recenttracks.track[0].artist["#text"],
-    Streamable: data.recenttracks.track[0].streamable,
-    image: data.recenttracks.track[0].image[2]["#text"],
-    mbid: data.recenttracks.track[0].mbid,
-    album: data.recenttracks.track[0].album["#text"],
-    name: data.recenttracks.track[0].name,
-    url: data.recenttracks.track[0].url,
-    date: data.recenttracks.track[0].date,
+    artist: track.artist["#text"],
+    Streamable: track.streamable,
+    image: track.image[2]["#text"],
+    mbid: track.mbid,
+    album: track.album["#text"],
+    name: track.name,
+    url: track.url,
+    date: track.date,
   };
 }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<NowPlayingTrack | { isPlaying: false }>
 ) {
   try {
     const track = await getNowPlayingTrack();
-    res.status(200).json(track);
+    if (track) {
+      res.status(200).json(track);
+    } else {
+      res.status(200).json({ isPlaying: false });
+    }
   } catch (error) {
-    res.status(500).json({isPlaying: false});
+    res.status(500).json({ isPlaying: false });
   }
 }
