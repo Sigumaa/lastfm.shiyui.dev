@@ -19,7 +19,7 @@ export default function Home() {
         <a href="https://www.last.fm/ja/user/shiyui">Shiyui</a> Now Playing
       </h1>
       <hr />
-      <p>{nowplaying ? "" : "NotListening to Music"} </p>
+      <p>{nowplaying ? "" : "Not Listening to Music"} </p>
       <div style={{ display: nowplaying ? "block" : "none" }}>
         <div style={{ display: thumbnail ? "block" : "none" , float: "left" }}>
           <img src={image} alt="thumbnail" />
