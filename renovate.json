@@ -13,8 +13,5 @@
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
-  ],
-  "enabledManagers": [
-    "pnpm"
   ]
 }
