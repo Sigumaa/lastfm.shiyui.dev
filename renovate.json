@@ -5,10 +5,16 @@
   "branchConcurrentLimit": 0,
   "platformAutomerge": true,
   "ignoreTests": true,
+  "ignoreDeps": [
+    "@types/*"
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     }
+  ],
+  "enabledManagers": [
+    "pnpm"
   ]
 }
